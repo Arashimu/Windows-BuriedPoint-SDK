@@ -1,0 +1,34 @@
+#pragma once
+
+#include <stdint.h>
+#include <memory>
+#include <string>
+#include <vector>
+
+namespace buried {
+class BuriedDbImpl;
+
+class BuriedDb {
+private:
+	std::unique_ptr<BuriedDbImpl> m_impl;
+public:
+	struct Data {
+		int32_t id;
+		int32_t priority;
+		uint64_t timestamp;
+		std::vector<char> content;
+	};
+
+	BuriedDb(std::string db_path);
+
+	~BuriedDb();
+
+	void InsertData(const Data& data);
+
+	void DeleteData(const Data& data);
+
+	void DeleteDatas(const std::vector<Data>& datas);
+
+	std::vector<Data> QueryData(int32_t limit);
+};
+}
